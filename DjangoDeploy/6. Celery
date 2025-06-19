@@ -1,0 +1,43 @@
+1. Установите в систему Redis:
+sudo apt-get update
+sudo apt-get install -y redis
+
+2. Проверить работоспособность Celery
+celery -A ad_board worker -l INFO -B
+
+3. Уровнем выше в папке bin создать bash скрип, которй запустить celery
+vim start_celery.sh 
+
+Вставить:
+
+#!/bin/bash
+source /home/linux/github/venv/bin/activate
+cd /home/linux/github/Fan_Blog/ad_board
+exec celery -A ad_board worker -l INFO -B
+
+Предоставить права скрипту
+chmod +x start_celery.sh
+
+Запустить скрипт для проверки
+. start_celery.sh
+
+4. 3. Создать конфиг супервизора для celery:
+sudo vim /etc/supervisor/conf.d/celery.conf
+
+Вставить:
+
+[program:fanblog_celery]
+command=/home/linux/github/Fan_Blog/bin/start_celery.sh
+user=linux
+process_name=%(program_name)s
+numprocs=1
+autostart=true
+autorestart=true
+redirect_stderr=true
+
+5. Добавить новый созданный конфиг в супервизор
+sudo supervisorctl reread
+sudo supervisorctl update
+
+6. Проверить работает ли новый процесс
+sudo supervisorctl  

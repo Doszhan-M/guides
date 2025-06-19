@@ -1,0 +1,35 @@
+ОС 20.04.2 LTS
+
+1. Первичное подключение к серверу 
+
+ssh root@185.23.108.189                     root пользователь, 185.23.108.189  адрес сервера
+Wkr8U6LMCk1V 
+
+2. Организация ssh подключения
+
+Добавить нового пользователя
+sudo adduser linux                          новый пользователь
+acer123                                     пароль
+
+Предоставить права суперпользователя
+sudo usermod -aG sudo linux 
+
+Проверка прав, ответ должен быть root
+su linux 
+sudo whoami
+
+После этого разрываем соединение и копируем ssh ключь
+ssh-copy-id linux@185.23.108.189
+acer123
+
+Вход по ssh
+ssh linux@185.23.108.189       
+
+Отключение входа по паролю
+sudo nano /etc/ssh/sshd_config
+Раскомменитовать строку PasswordAuthentication и дописать no, в итоге должно выглядить как
+PasswordAuthentication no
+
+Добавление пользователя, если отключен вход по паролю:
+nano ~/.ssh/authorized_keys
+вставить pub key

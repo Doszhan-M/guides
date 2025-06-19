@@ -1,0 +1,13 @@
+certbot устанавливается после деплоя 
+
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d doszhan.online -d www.doszhan.online
+
+certbot certonly --dry-run --nginx -d doszhan.online -d www.doszhan.online
+
+
+если не правильно запущен certbot
+find / -type f -name ".certbot.lock"
+sudo find / -type f -name ".certbot.lock" -exec rm {} \;
+
+видео https://www.youtube.com/watch?v=1wnOw1vwPEo

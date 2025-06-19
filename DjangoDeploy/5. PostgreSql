@@ -1,0 +1,43 @@
+1. Установить PostgreSQL
+sudo apt update
+sudo apt install -y postgresql postgresql-contrib
+
+Запустить 
+sudo service postgresql start
+
+2. Войти в PostgreSQL:
+sudo -u postgres psql
+psql -U user1 database1
+
+3. Создать таблицу для текущего проекта:
+
+Создать базу:
+CREATE DATABASE new_mocerts_db;
+
+Этот юзер может создавать таблицы:
+CREATE USER mocert WITH PASSWORD 'mocert';
+
+Предоставить доступы:
+ALTER ROLE mocert SET client_encoding TO 'utf8';
+ALTER ROLE mocert SET default_transaction_isolation TO 'read committed';
+ALTER ROLE mocert SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE new_mocerts_db TO mocert;
+
+4. Рестарт PostgreSQL
+sudo service postgresql restart
+
+5. Отредактировать settings.py на текущую таблицу
+
+6. Сделать миграции, создать суперэзера
+python3 manage.py makemigrations 
+python3 manage.py migrate
+python3 manage.py createsuperuser
+
+Если не создается суперпользователь нужно добавить локали в /etc/profile
+sudo vim /etc/profile
+Вставить в начало:
+
+export LANGUAGE=ru_RU.UTF-8
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF
+

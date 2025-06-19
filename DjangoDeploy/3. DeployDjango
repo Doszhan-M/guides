@@ -1,0 +1,94 @@
+1. Установить проект, запустить локально
+
+2. Запустить проект через python3 manage.py runserver 0.0.0.0:8000
+
+3. Добавить хост, пример
+[185.23.108.189 , 'localhost', '127.0.0.1']
+
+4. Установить gunicorn
+pip3 install gunicorn
+
+
+5. Настройка gunicorn
+
+Рядом с manage.py создать ginicorn_config.py
+vim gunicorn_config.py
+Вставить:
+
+command = 'gunicorn'
+pythonpath = '/home/linux/github/Fan_Blog/ad_board'
+bind = '127.0.0.1:8001'
+workers = 3
+user = 'linux'
+limit_request_fields = 32000
+limit_request_field_size = 0
+raw_env = 'DJANGO_SETTINGS_MODULE=ad_board.settings'
+
+Проверить работоспособность
+gunicorn  -c "/home/linux/github/Fan_Blog/ad_board/gunicorn_config.py" ad_board.wsgi
+
+Уровнем выше в папке bin создать bash скрип, который запустить gunicorn
+cd ../
+mkdir bin
+cd bin
+vim start_gunicorn.sh
+Вставить:
+
+#!/bin/bash
+source /home/linux/github/venv/bin/activate
+exec gunicorn  -c "/home/linux/github/Fan_Blog/ad_board/gunicorn_config.py" ad_board.wsgi
+
+Предоставить права скрипту
+zzz start_gunicorn.sh
+
+Запустить скрипт
+. start_gunicorn.sh
+
+
+6. Настройка nginx
+Команды nginx на зематку:
+sudo service nginx status
+sudo service nginx start
+sudo service nginx stop
+
+Отредактировать файл default:
+sudo vim /etc/nginx/sites-enabled/
+Все удалить и вставить:
+
+server {
+    listen 80;
+    server_name 185.23.108.189; # здесь прописать или IP-адрес или доменное имя сервера например, server_name doszhan.space www.doszhan.space;
+    access_log  /var/log/nginx/example.log;
+ 
+    location /static/ {
+        alias  /home/linux/github/Fan_Blog/ad_board/static/;
+        expires 30d;
+    }
+
+    location /media/ {
+        alias  /home/linux/github/Fan_Blog/ad_board/media/;
+        expires 30d;
+    }
+ 
+    location / {
+        proxy_pass http://127.0.0.1:8001; 
+        proxy_set_header Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+Перезапустить nginx
+sudo service nginx stop
+sudo service nginx start
+sudo systemctl restart nginx
+
+По адресу ip должно быть 502BabGateway
+
+Запустить скрипт gunicorn для проверки
+cd ~/github/Fan_Blog/bin/
+. start_gunicorn.sh
+
+7. Далее настройка supervisov так же не забыть про команду:
+python3 manage.py collectstatic

@@ -1,0 +1,47 @@
+1. Установить supervisor
+apt-get install supervisor -y
+
+2. Проверить состояние:
+supervisord -v
+systemctl status supervisor
+
+3. Создать конфиг супервизора для gunicorn(пример):
+[program:fanblog_celery]
+directory=path to dir
+command=/home/linux/github/Fan_Blog/bin/start_celery.sh
+user=linux
+process_name=%(program_name)s
+numprocs=1
+autostart=true
+autorestart=true
+redirect_stderr=true
+
+
+4. Добавить новый созданный конфиг в супервизор
+sudo supervisorctl reread
+sudo supervisorctl update
+
+5. Проверить работает ли новый процесс
+sudo supervisorctl
+
+Заметки:
+Папка с конфигами 
+cd /etc/supervisor/conf.d/
+
+Папка с логами
+sudo vim /var/log/supervisor/
+
+Остановка задачи
+sudo supervisorctl stop moserts_gunicorn
+sudo supervisorctl stop moserts_celery
+
+Запуск задачи
+sudo supervisorctl start fanblog_gunicorn
+sudo supervisorctl start fanblog_celery
+
+sudo supervisorctl stop all
+sudo supervisorctl start all
+
+
+Перезагрузка всех задач
+sudo supervisorctl restart all
