@@ -1,46 +1,29 @@
 # =========================================
-# GLOBAL (по умолчанию для всех окон)
+# CHROME (ускорить до ×10)
 # =========================================
-".*"
-# Ускорение вертикальной прокрутки ×3
-None,        Up,     Button4, 2
-None,        Down,   Button5, 2
-
-# --- Сохранить «нативное» поведение с модификаторами ---
-# (Зум в браузерах/IDE и др.)
+"^(google-chrome|Google-chrome)$"
+@Priority=100
+None,        Up,     Button4, 3
+None,        Down,   Button5, 3
+# Модификаторы — оставить нативное поведение
 Control_L,   Up,     Control_L|Button4
 Control_L,   Down,   Control_L|Button5
 Control_R,   Up,     Control_R|Button4
 Control_R,   Down,   Control_R|Button5
-
 Shift_L,     Up,     Shift_L|Button4
 Shift_L,     Down,   Shift_L|Button5
 Shift_R,     Up,     Shift_R|Button4
 Shift_R,     Down,   Shift_R|Button5
-
 Alt_L,       Up,     Alt_L|Button4
 Alt_L,       Down,   Alt_L|Button5
 Alt_R,       Up,     Alt_R|Button4
 Alt_R,       Down,   Alt_R|Button5
 
 # =========================================
-# БРАУЗЕРЫ (быстрее пролистывать ленты/доки)
-# =========================================
-".*Chrom[e|ium].*|.*Firefox.*|.*Brave.*|.*Vivaldi.*"
-None,        Up,     Button4, 3
-None,        Down,   Button5, 3
-# Модификаторы — сквозняком (как выше в GLOBAL)
-Control_L,   Up,     Control_L|Button4
-Control_L,   Down,   Control_L|Button5
-Shift_L,     Up,     Shift_L|Button4
-Shift_L,     Down,   Shift_L|Button5
-Alt_L,       Up,     Alt_L|Button4
-Alt_L,       Down,   Alt_L|Button5
-
-# =========================================
-# PDF/VIEWERS (самое «длинное» чтение)
+# PDF/VIEWERS (длинное чтение, умеренно)
 # =========================================
 ".*Okular.*|.*Evince.*|.*Document Viewer.*|.*Atril.*"
+@Priority=90
 None,        Up,     Button4, 3
 None,        Down,   Button5, 3
 Control_L,   Up,     Control_L|Button4
@@ -51,7 +34,8 @@ Shift_L,     Down,   Shift_L|Button5
 # =========================================
 # IDE/РЕДАКТОРЫ (точнее, не слишком быстро)
 # =========================================
-".*Code.*|.*VSCodium.*|.*JetBrains.*|.*Sublime Text.*|.*Neovim.*"
+"^(code|Code)$|.*VSCodium.*|.*JetBrains.*|.*Sublime Text.*|.*Neovim.*"
+@Priority=80
 None,        Up,     Button4, 2
 None,        Down,   Button5, 2
 Control_L,   Up,     Control_L|Button4
@@ -62,7 +46,8 @@ Shift_L,     Down,   Shift_L|Button5
 # =========================================
 # ТЕРМИНАЛЫ (аккуратно со скроллом истории)
 # =========================================
-".*Terminal.*|.*Alacritty.*|.*kitty.*|.*Tilix.*|.*Konsole.*|.*GNOME Terminal.*|.*xterm.*"
+"Gnome-terminal|gnome-terminal-server|.*Terminal.*|.*Alacritty.*|.*kitty.*|.*Tilix.*|.*Konsole.*|.*xterm.*|.*GNOME Terminal.*"
+@Priority=70
 None,        Up,     Button4, 2
 None,        Down,   Button5, 2
 Control_L,   Up,     Control_L|Button4
@@ -70,10 +55,33 @@ Control_L,   Down,   Control_L|Button5
 Shift_L,     Up,     Shift_L|Button4
 Shift_L,     Down,   Shift_L|Button5
 
+# =========================================
+# GLOBAL (по умолчанию для всех окон)
+# =========================================
+".*"
+@Priority=0
+# Ускорение вертикальной прокрутки ×3
+None,        Up,     Button4, 1
+None,        Down,   Button5, 1
+
+# --- Сохранить «нативное» поведение с модификаторами ---
+# (Зум в браузерах/IDE и др.)
+Control_L,   Up,     Control_L|Button4
+Control_L,   Down,   Control_L|Button5
+Control_R,   Up,     Control_R|Button4
+Control_R,   Down,   Control_R|Button5
+Shift_L,     Up,     Shift_L|Button4
+Shift_L,     Down,   Shift_L|Button5
+Shift_R,     Up,     Shift_R|Button4
+Shift_R,     Down,   Shift_R|Button5
+Alt_L,       Up,     Alt_L|Button4
+Alt_L,       Down,   Alt_L|Button5
+Alt_R,       Up,     Alt_R|Button4
+Alt_R,       Down,   Alt_R|Button5
+
 # -----------------------------------------
 # ПРИМЕЧАНИЕ про горизонтальный скролл:
 # Если у мыши есть наклон колеса (Button6/7), можно ускорить так:
 # None,      Left,   Button6, 2
 # None,      Right,  Button7, 2
-# Но у MX Vertical штатного «tilt» нет — оставляем закомментированным.
 # -----------------------------------------

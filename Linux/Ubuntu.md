@@ -71,4 +71,8 @@ X-GNOME-Autostart-enabled=true
 EOF
 ```
 
+### Определение имени окна
+```
+xprop | grep -i 'wm_class\|wm_name'
+```
 ---
