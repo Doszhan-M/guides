@@ -75,4 +75,9 @@ EOF
 ```
 xprop | grep -i 'wm_class\|wm_name'
 ```
+
+### Если не работает, то надо перейти на X11
+```
+echo $XDG_SESSION_TYPE
+```
 ---
