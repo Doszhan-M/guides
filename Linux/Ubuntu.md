@@ -3,7 +3,19 @@
 ```
 Во время установки выбрать минимальная установка + поддержка проприетарных драйверов
 ```
+---
 
+## Установить apt mirror на Neolabs
+```
+sudo tee /etc/apt/sources.list.d/ubuntu.sources > /dev/null <<'EOF'
+Types: deb
+URIs: https://mirror.neolabs.kz/ubuntu/
+Suites: noble noble-updates noble-backports noble-security
+Components: main restricted universe multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+EOF
+sudo apt update
+```
 ---
 
 ## Docker
