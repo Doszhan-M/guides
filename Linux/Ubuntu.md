@@ -146,3 +146,33 @@ reboot
 ```
 
 ---
+
+
+# Автозапуск Telegram (Flatpak)
+
+```bash
+vim ~/.config/autostart/org.telegram.desktop.desktop
+```
+
+```ini
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Telegram
+Comment=New era of messaging
+Exec=flatpak run org.telegram.desktop -startintray
+Icon=org.telegram.desktop
+Terminal=false
+StartupWMClass=TelegramDesktop
+Categories=Chat;Network;InstantMessaging;Qt;
+MimeType=x-scheme-handler/tg;x-scheme-handler/tonsite;
+Keywords=tg;chat;im;messaging;messenger;sms;tdesktop;
+X-GNOME-Autostart-enabled=true
+Hidden=false
+X-GNOME-UsesNotifications=true
+X-Flatpak=org.telegram.desktop
+```
+
+```bash
+chmod +x ~/.config/autostart/org.telegram.desktop.desktop
+```
