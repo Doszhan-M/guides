@@ -5,6 +5,13 @@
 ```
 ---
 
+## Защита от удаления системных директорий
+
+```
+sudo apt install safe-rm
+```
+---
+
 ## Установить apt mirror на Neolabs
 ```
 sudo tee /etc/apt/sources.list.d/ubuntu.sources > /dev/null <<'EOF'
