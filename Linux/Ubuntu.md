@@ -7,9 +7,8 @@
 
 ## Защита от удаления системных директорий
 
-```
-sudo apt install safe-rm
-```
+## [Инструкции](safe-rm.md)
+
 ---
 
 ## Установить apt mirror на Neolabs
