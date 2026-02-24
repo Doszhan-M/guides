@@ -55,11 +55,20 @@ swap-priority = 100
 EOF
 ```
 
-### 2.3 Применить и запустить
+### 2.3 Применить
 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl restart systemd-zram-setup@zram0.service
+```
+### 2.4 Перезагрузить систему
+
+```bash
+sudo reboot
+```
+### 2.4 Проверить
+
+```bash
 swapon --show
 ```
 
