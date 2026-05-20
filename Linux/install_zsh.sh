@@ -1,32 +1,35 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Установка необходимых пакетов
-sudo apt update
-sudo apt -y install zsh curl git
+sudo apt-get update
+sudo apt-get install -y zsh curl git
 
-# Установка Oh My Zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-# Определение переменной ZSH_CUSTOM
-ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
-
-# Установка плагинов zsh-autosuggestions и zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-
-# Настройка .zshrc: добавление темы и плагинов
-if grep -q "ZSH_THEME=" ~/.zshrc; then
-    sed -i 's/^ZSH_THEME=".*"/ZSH_THEME="daveverwer"/' ~/.zshrc
-else
-    echo 'ZSH_THEME="philips"' >> ~/.zshrc
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-if grep -q "plugins=(" ~/.zshrc; then
-    sed -i 's/^plugins=(.*)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' ~/.zshrc
-else
-    echo 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' >> ~/.zshrc
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 fi
 
-sudo chsh -s $(which zsh) $USER
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+fi
 
-echo "Установка и настройка Zsh завершена успешно!"
+if grep -q '^ZSH_THEME=' "$HOME/.zshrc"; then
+  sed -i 's/^ZSH_THEME=.*/ZSH_THEME="daveverwer"/' "$HOME/.zshrc"
+else
+  echo 'ZSH_THEME="daveverwer"' >> "$HOME/.zshrc"
+fi
+
+if grep -q '^plugins=' "$HOME/.zshrc"; then
+  sed -i 's/^plugins=.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "$HOME/.zshrc"
+else
+  echo 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' >> "$HOME/.zshrc"
+fi
+
+sudo chsh -s "$(command -v zsh)" "$USER"
+
+echo "Zsh configured. Re-login to apply shell change."
